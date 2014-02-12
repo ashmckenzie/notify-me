@@ -1,0 +1,11 @@
+#!/usr/bin/env ruby
+
+oldrev, newrev = ARGV
+
+def run(cmd)
+  exit($?.exitstatus) unless system "umask 002 && #{cmd}"
+end
+
+run "bundle install --deployment --without 'development test'"
+run "bundle exec rake notify-me:generate_nginx_config | sudo tee /etc/nginx/sites-available/notify-me.conf"
+run "sudo ln -nfs /etc/nginx/sites-available/notify-me.conf /etc/nginx/sites-enabled/"
