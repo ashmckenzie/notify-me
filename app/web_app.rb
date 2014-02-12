@@ -58,13 +58,11 @@ module NotifyMe
     private
 
       def enqueue_jobs title, message
-        push_opts = { message: message, title: title }
-
-        Workers::PushWorker.perform_async(push_opts)
-
         sms_opts = { to: '+61417365255', body: message }
-
         Workers::SmsWorker.perform_async(sms_opts)
+
+        push_opts = { message: message, title: title }
+        Workers::PushWorker.perform_async(push_opts)
 
         email_opts = {
           to:         'ash@greenworm.com.au',
@@ -73,7 +71,6 @@ module NotifyMe
           subject:    title,
           html:       message
         }
-
         Workers::EmailWorker.perform_async(email_opts)
 
         # Create an entry somewhere
