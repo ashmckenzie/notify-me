@@ -58,8 +58,8 @@ module NotifyMe
     private
 
       def enqueue_jobs title, message
-        sms_opts = { to: '+61417365255', body: message }
-        Workers::SmsWorker.perform_async(sms_opts)
+        #sms_opts = { to: '+61417365255', body: message }
+        #Workers::SmsWorker.perform_async(sms_opts)
 
         push_opts = { message: message, title: title }
         Workers::PushWorker.perform_async(push_opts)
