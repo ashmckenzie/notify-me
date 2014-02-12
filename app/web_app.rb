@@ -38,15 +38,22 @@ module NotifyMe
     post '/' do
       content_type :json
 
+      start_time = Time.now.to_i
+
       title   = params[:title]
       message = params[:message]
 
-      if title && message
-        enqueue_jobs(title, message)
-        { status: 'OK' }.to_json
+      if (title && message)
+        status = enqueue_jobs(title, message) ? 'OK' : 'NOTOK'
       else
-        { status: 'INVALID' }.to_json
+        status = 'INVALID'
       end
+
+      {
+        status: status
+        took:   Time.now.to_i - start_time
+
+      }.to_json
     end
 
     private
