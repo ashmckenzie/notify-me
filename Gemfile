@@ -24,3 +24,4 @@ group :development do
   gem 'awesome_print'
   gem 'git-deploy'
 end
+
