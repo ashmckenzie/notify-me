@@ -38,12 +38,15 @@ module NotifyMe
     post '/' do
       content_type :json
 
-      title = 'Testing'
-      message = 'Message here'
+      title   = params[:title]
+      message = params[:message]
 
-      enqueue_jobs(title, message)
-
-      { status: 'OK' }.to_json
+      if title && message
+        enqueue_jobs(title, message)
+        { status: 'OK' }.to_json
+      else
+        { status: 'INVALID' }.to_json
+      end
     end
 
     private
