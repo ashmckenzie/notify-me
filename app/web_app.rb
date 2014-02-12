@@ -50,9 +50,8 @@ module NotifyMe
       end
 
       {
-        status: status
+        status: status,
         took:   Time.now.to_i - start_time
-
       }.to_json
     end
 
