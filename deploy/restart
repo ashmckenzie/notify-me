@@ -5,3 +5,6 @@ sudo service nginx reload
 
 echo "Restarting app.."
 touch tmp/restart.txt
+
+echo "Restarting sidekiq"
+sudo god restart notify-me

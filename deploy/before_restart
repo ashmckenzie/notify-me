@@ -1,10 +1,41 @@
 #!/usr/bin/env ruby
 
-oldrev, newrev = ARGV
+def config
+  @config ||= begin
+    config_file = File.expand_path(File.join('..', '..', 'config', 'config.yml'), __FILE__)
+    YAML.load_file(config_file)['deploy']
+  end
+end
 
 def run(cmd)
-  exit($?.exitstatus) unless system "umask 002 && #{cmd}"
+  system "umask 002 && #{cmd}"
+  $?.exitstatus
 end
+
+def god_setup?
+  god_installed? && File.exist?('/etc/god/conf.d')
+end
+
+def god_installed?
+  Gem::Specification.find_by_name('god')
+  true
+rescue
+  false
+end
+
+def notify_me_god_file_symlinked?
+  File.exist?('/etc/god/conf.d/notify_me.god')
+end
+
+# ------------------------------------------------------------------------------
+
+if god_setup?
+  run "sudo ln -s #{config['god_file']} /etc/god/conf.d/" unless notify_me_god_file_symlinked?
+else
+  puts "ERROR: God is not setup!!"
+end
+
+run "sudo god load /etc/god/conf.d/notify_me.god"
 
 run "bundle install --deployment --without 'development test'"
 run "bundle exec rake notify-me:generate_nginx_config | sudo tee /etc/nginx/sites-available/notify-me.conf"

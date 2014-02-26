@@ -20,7 +20,7 @@ module NotifyMe
 
     configure :production do
       before do
-        halt 401, 'Access denied' unless Config.app.api_keys.include?(params[:api_key])
+        halt 401, 'Access denied' unless api_keys.include?(params[:api_key])
         @api_key = params[:api_key]
       end
     end
@@ -56,6 +56,10 @@ module NotifyMe
     end
 
     private
+
+      def api_keys
+        @api_keys ||= NotifyMe::Config.app.users.map { |x| x.api_key }
+      end
 
       def enqueue_jobs title, message
         #sms_opts = { to: '+61417365255', body: message }
