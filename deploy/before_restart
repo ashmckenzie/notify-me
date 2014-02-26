@@ -1,5 +1,7 @@
 #!/usr/bin/env ruby
 
+require 'yaml'
+
 def config
   @config ||= begin
     config_file = File.expand_path(File.join('..', '..', 'config', 'config.yml'), __FILE__)
