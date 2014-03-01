@@ -15,7 +15,6 @@ namespace 'notify-me' do
 
   desc 'Console'
   task :console do
-    # require 'bundler/setup'
     require 'pry'
     require 'pry-debugger'
     require 'awesome_print'
@@ -23,5 +22,9 @@ namespace 'notify-me' do
     include NotifyMe
 
     pry
+  end
+
+  task :clear_jobs do
+    Sidekiq.redis { |x| x.del(x.keys) unless x.keys.empty? }
   end
 end

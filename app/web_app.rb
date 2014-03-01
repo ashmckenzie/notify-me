@@ -3,6 +3,7 @@
 require 'sinatra/base'
 require 'sinatra/reloader'
 require 'stethoscope'
+require 'hashie'
 
 require 'better_errors' if ENV['RACK_ENV'] == 'development'
 
@@ -11,6 +12,7 @@ module NotifyMe
 
     configure :development do
       require 'pry'
+      require 'awesome_print'
 
       use BetterErrors::Middleware
       register Sinatra::Reloader
@@ -38,21 +40,10 @@ module NotifyMe
     post '/' do
       content_type :json
 
-      start_time = Time.now.to_i
+      start_time = Time.now.to_f
+      status = process_payload(params, request)
 
-      title   = params[:title]
-      message = params[:message]
-
-      if (title && message)
-        status = enqueue_jobs(title, message) ? 'OK' : 'NOTOK'
-      else
-        status = 'INVALID'
-      end
-
-      {
-        status: status,
-        took:   Time.now.to_i - start_time
-      }.to_json
+      { status: status, took: (Time.now.to_f - start_time).round(4) }.to_json
     end
 
     private
@@ -61,24 +52,23 @@ module NotifyMe
         @api_keys ||= NotifyMe::Config.app.users.map { |x| x.api_key }
       end
 
-      def enqueue_jobs title, message
-        #sms_opts = { to: '+61417365255', body: message }
-        #Workers::SmsWorker.perform_async(sms_opts)
+      def process_payload params, request
+        payload = Hashie::Mash.new(params)
+        notification = NotificationAdapterFactory.new(payload, request).fingerprint
 
-        push_opts = { message: message, title: title }
-        Workers::PushWorker.perform_async(push_opts)
+        if (notification.valid?)
+          enqueue_jobs(notification) ? 'OK' : 'NOTOK'
+        else
+          'INVALID'
+        end
+      end
 
-        email_opts = {
-          to:         'ash@greenworm.com.au',
-          from:       'ash@greenworm.com.au',
-          from_email: 'ash@greenworm.com.au',
-          subject:    title,
-          html:       message
-        }
-        Workers::EmailWorker.perform_async(email_opts)
-
-        # Create an entry somewhere
-
+      def enqueue_jobs notification
+        [
+          # Thread.new { Notifications::Sms.new(notification).notify! }
+          # Thread.new { Notifications::Pushover.new(notification).notify! },
+          Thread.new { Notifications::Email.new(notification).notify! },
+        ].join
       end
   end
 end
