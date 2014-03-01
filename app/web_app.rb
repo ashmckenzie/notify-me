@@ -66,7 +66,7 @@ module NotifyMe
       def enqueue_jobs notification
         [
           # Thread.new { Notifications::Sms.new(notification).notify! }
-          # Thread.new { Notifications::Pushover.new(notification).notify! },
+          Thread.new { Notifications::Pushover.new(notification).notify! },
           Thread.new { Notifications::Email.new(notification).notify! },
         ].join
       end
