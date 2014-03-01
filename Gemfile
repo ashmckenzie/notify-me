@@ -23,5 +23,7 @@ group :development do
   gem 'binding_of_caller', require: false
   gem 'awesome_print'
   gem 'git-deploy'
+  gem 'debugger-ruby_core_source', '1.3.2'
+  gem 'debugger', '1.6.6'
 end
 
