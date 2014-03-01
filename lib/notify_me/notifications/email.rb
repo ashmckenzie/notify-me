@@ -21,18 +21,14 @@ module NotifyMe
             to:         'ash@the-rebellion.net',
             from:       'ash@the-rebellion.net',
             from_email: 'Notify Me <ash@the-rebellion.net>',
-            subject:    subject,
+            subject:    notification.subject,
             html:       html
           }
         end
 
-        def subject
-          "[priority: %{priority}] [category: %{category}] %{title}" % { title: notification.title, category: notification.category, priority: notification.priority }
-        end
-
         def html
           content = Hashie::Mash.new({ notification: notification })
-          Slim::Template.new('./lib/notify_me/templates/email.html.slim').render(content)
+          Slim::Template.new(notification.email_template).render(content)
         end
     end
   end

@@ -1,0 +1,24 @@
+table.row[border="0" cellspacing="0" cellpadding="8"]
+  tr
+    td.wrapper.last
+      table.twelve.columns[border="0" cellspacing="0" cellpadding="8"]
+        tr
+          td
+            p[style="font-weight: bold"] Title
+          td
+            p= notification.title
+        tr
+          td
+            p[style="font-weight: bold"] Host
+          td
+            p= notification.host
+        tr
+          td
+            p[style="font-weight: bold"] Time
+          td
+            p= notification.time
+        tr
+          td
+            p[style="font-weight: bold"] Message
+          td
+            p== notification.message

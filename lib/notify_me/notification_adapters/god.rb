@@ -15,6 +15,14 @@ module NotifyMe
         )
       end
 
+      def subject
+        "[priority: %{priority}] [category: %{category}] %{title}" % { title: title, category: category, priority: priority }
+      end
+
+      def email_template
+        './lib/notify_me/templates/god/email.html.slim'
+      end
+
       private
 
         attr_reader :payload

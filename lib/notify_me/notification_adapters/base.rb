@@ -41,6 +41,14 @@ module NotifyMe
         payload.time || Time.now
       end
 
+      def email_template
+        './lib/notify_me/templates/base/email.html.slim'
+      end
+
+      def subject
+        title
+      end
+
       private
 
         attr_reader :payload, :request
