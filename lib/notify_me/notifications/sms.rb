@@ -15,7 +15,7 @@ module NotifyMe
         attr_reader :notification
 
         def options
-          { to: '+61417365255', body: notification.message }
+          { to: '+61417365255', title: notification.title, message: notification.message }
         end
     end
   end
