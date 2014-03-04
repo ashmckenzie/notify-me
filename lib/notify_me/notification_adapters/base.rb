@@ -12,6 +12,10 @@ module NotifyMe
         @messages = []
       end
 
+      def to_s
+        "<%s> %s" % [ self.class, payload.inspect ]
+      end
+
       def match?
         true
       end

@@ -46,10 +46,10 @@ module NotifyMe
     private
 
       def process params, request
+        debug(params)
+
         start_time = Time.now.to_f
-
         result = process_payload(Hashie::Mash.new(params), request)
-
         status result.code
 
         { status: result.code, messages: result.messages, took: (Time.now.to_f - start_time).round(4) }.to_json
@@ -97,10 +97,27 @@ module NotifyMe
       def enqueue_jobs notification, app
         jobs = []
         services = app.services.keys
-        jobs << Thread.new { Notifications::Sms.new(notification).notify! } if services.include?('twilio')
-        jobs << Thread.new { Notifications::Pushover.new(notification).notify! } if services.include?('pushover')
-        jobs << Thread.new { Notifications::Email.new(notification).notify! } if services.include?('mandrill')
+
+        debug(notification)
+        debug(app)
+
+        add_job(jobs, Notifications::Sms.new(notification)) if services.include?('twilio')
+        add_job(jobs, Notifications::Pushover.new(notification)) if services.include?('pushover')
+        add_job(jobs, Notifications::Email.new(notification)) if services.include?('mandrill')
         jobs.join
+      end
+
+      def add_job jobs, job
+        debug("Adding " + job.class.to_s)
+        jobs << Thread.new { job.notify! }
+      end
+
+      def debug obj
+        ap(obj) if development?
+      end
+
+      def development?
+        ENV['RACK_ENV'] == 'development'
       end
   end
 end
