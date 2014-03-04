@@ -28,3 +28,4 @@ namespace 'notify-me' do
     Sidekiq.redis { |x| x.del(x.keys) unless x.keys.empty? }
   end
 end
+

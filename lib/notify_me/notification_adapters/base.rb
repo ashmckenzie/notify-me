@@ -4,9 +4,12 @@ module NotifyMe
   module NotificationAdapters
     class Base
 
+      attr_reader :messages
+
       def initialize payload, request
         @payload = Hashie::Mash.new(payload)
         @request = request
+        @messages = []
       end
 
       def match?
@@ -14,7 +17,9 @@ module NotifyMe
       end
 
       def valid?
-        !title.empty? && !message.empty?
+        messages << "Title is missing" if title.nil? || title.empty?
+        messages << "Message is missing" if message.nil? || message.empty?
+        messages.empty?
       end
 
       def title

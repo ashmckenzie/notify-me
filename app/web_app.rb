@@ -20,13 +20,6 @@ module NotifyMe
       LIBRARIES.each { |f| also_reload(f) }
     end
 
-    configure :production do
-      before do
-        halt 401, 'Access denied' unless api_keys.include?(params[:api_key])
-        @api_key = params[:api_key]
-      end
-    end
-
     use Rack::ConditionalGet
     use Rack::ETag
     use Stethoscope
@@ -37,38 +30,77 @@ module NotifyMe
       erb :index
     end
 
+    # TODO: deprecate this!!
+    #
     post '/' do
       content_type :json
+      params[:app_name] = 'default'
+      process(params, request)
+    end
 
-      start_time = Time.now.to_f
-      status = process_payload(params, request)
-
-      { status: status, took: (Time.now.to_f - start_time).round(4) }.to_json
+    post '/:api_key/:app_name' do
+      content_type :json
+      process(params, request)
     end
 
     private
 
-      def api_keys
-        @api_keys ||= NotifyMe::Config.app.users.map { |x| x.api_key }
+      def process params, request
+        start_time = Time.now.to_f
+
+        result = process_payload(Hashie::Mash.new(params), request)
+
+        status result.code
+
+        { status: result.code, messages: result.messages, took: (Time.now.to_f - start_time).round(4) }.to_json
       end
 
       def process_payload params, request
-        payload = Hashie::Mash.new(params)
-        notification = NotificationAdapterFactory.new(payload, request).fingerprint
+        code = 200
+        messages = []
+        user = false
 
-        if (notification.valid?)
-          enqueue_jobs(notification) ? 'OK' : 'NOTOK'
-        else
-          'INVALID'
+        begin
+          user = User.lookup(params.api_key)
+        rescue Errors::InvalidApiKeyError => e
+          code = 401
+          messages << "API key '#{params.api_key}' is invalid"
         end
+
+        if user
+          if app = user.app(params.app_name)
+
+            payload = Hashie::Mash.new(params)
+            notification = NotificationAdapterFactory.new(payload, request).fingerprint
+
+            if (notification.valid?)
+              if enqueue_jobs(notification, app)
+                messages << "Enqueued jobs for API key '#{params.api_key}' and app '#{params.app_name}'"
+              else
+                code = 500
+                messages << "Unable to enqueue jobs for API key '#{params.api_key}' and app '#{params.app_name}'"
+              end
+            else
+              code = 466
+              messages += notification.messages
+            end
+
+          else
+            code = 401
+            messages << "APP name '#{params.app_name}' is not valid for API key '#{params.api_key}'"
+          end
+        end
+
+        Result.new(code, messages)
       end
 
-      def enqueue_jobs notification
-        [
-          # Thread.new { Notifications::Sms.new(notification).notify! }
-          Thread.new { Notifications::Pushover.new(notification).notify! },
-          Thread.new { Notifications::Email.new(notification).notify! },
-        ].join
+      def enqueue_jobs notification, app
+        jobs = []
+        services = app.services.keys
+        jobs << Thread.new { Notifications::Sms.new(notification).notify! } if services.include?('twilio')
+        jobs << Thread.new { Notifications::Pushover.new(notification).notify! } if services.include?('pushover')
+        jobs << Thread.new { Notifications::Email.new(notification).notify! } if services.include?('mandrill')
+        jobs.join
       end
   end
 end
