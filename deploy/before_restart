@@ -31,6 +31,13 @@ end
 
 # ------------------------------------------------------------------------------
 
+run "bundle install --deployment --without 'development test'"
+
+run "bundle exec rake notify-me:generate_nginx_config | sudo tee /etc/nginx/sites-available/notify-me.conf"
+run "sudo ln -nfs /etc/nginx/sites-available/notify-me.conf /etc/nginx/sites-enabled/"
+
+run "sudo mkdir /etc/nginx/ssl"
+
 if god_setup?
   run "sudo ln -s #{config['god_file']} /etc/god/conf.d/" unless notify_me_god_file_symlinked?
 else
@@ -38,7 +45,3 @@ else
 end
 
 run "sudo god load /etc/god/conf.d/notify_me.god"
-
-run "bundle install --deployment --without 'development test'"
-run "bundle exec rake notify-me:generate_nginx_config | sudo tee /etc/nginx/sites-available/notify-me.conf"
-run "sudo ln -nfs /etc/nginx/sites-available/notify-me.conf /etc/nginx/sites-enabled/"
