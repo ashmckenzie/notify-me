@@ -31,7 +31,7 @@ end
 
 # ------------------------------------------------------------------------------
 
-run "sudo chmod 440 ./config/dingdong.io.*"
+run "sudo chmod 640 ./config/dingdong.io.*"
 run "sudo chown deploy:www-data ./config/dingdong.io.*"
 
 run "bundle install --deployment --without 'development test'"
