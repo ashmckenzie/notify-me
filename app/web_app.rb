@@ -24,10 +24,31 @@ module NotifyMe
     use Rack::ETag
     use Stethoscope
 
+    set :public_folder, File.join(ROOT_PATH, 'public')
     set :views, File.join(ROOT_PATH, 'views')
 
     get '/' do
-      erb :index
+      slim :index
+    end
+
+    get '/about' do
+      slim :about
+    end
+
+    get '/contact' do
+      slim :contact
+    end
+
+    get '/login' do
+      slim :login
+    end
+
+    get '/sign-up' do
+      slim :sign_up
+    end
+
+    get '/docs/get-started' do
+      slim :'docs/get_started'
     end
 
     # TODO: deprecate this!!

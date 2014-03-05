@@ -1,0 +1,39 @@
+doctype
+html lang="en"
+  head
+    meta charset="utf-8"
+    meta content="IE=edge" http-equiv="X-UA-Compatible"
+    meta content="width=(device-width,)initial-scale=1" name="viewport"
+    title Ding Dong!
+    link href="/assets/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet"
+    link href="/assets/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet"
+    style
+      |  body { min-height: 2000px; padding-top: 70px; }
+    /! HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries
+    /! WARNING: Respond.js doesn't work if you view the page via file://
+    /![if lt IE 9]
+      | <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      | <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  body
+    .navbar.navbar-default.navbar-fixed-top[role="navigation"]
+      .container
+        .navbar-header
+          a.navbar-brand[href="/"] Ding Dong
+        .navbar-collapse.collapse
+          ul.nav.navbar-nav
+            li
+              a[href="/about"] About
+            li
+              a[href="/contact"] Contact
+            li
+              a[href="/docs/get-started"] Get started
+          ul.nav.navbar-nav.navbar-right
+            li
+              a[href="/login"] Login
+            li
+              a[href="/sign-up"] Sign up
+    .container
+        == yield
+
+    script src="/assets/jquery/dist/jquery.min.js"
+    script src="/assets/bootstrap/dist/js/bootstrap.min.js"
