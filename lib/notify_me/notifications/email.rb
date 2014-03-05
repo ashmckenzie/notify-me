@@ -21,7 +21,7 @@ module NotifyMe
             to:         'ash@the-rebellion.net',
             from:       'ash@the-rebellion.net',
             from_email: 'Notify Me <ash@the-rebellion.net>',
-            subject:    notification.subject,
+            subject:    "%s: %s" % [ 'Ding Dong', notification.subject ],
             html:       html
           }
         end

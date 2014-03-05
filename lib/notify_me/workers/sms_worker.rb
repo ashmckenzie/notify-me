@@ -14,7 +14,7 @@ module NotifyMe
         twilio.account.messages.create(
           from:   Config.app.twilio.caller_id,
           to:     opts['to'],
-          body:   body
+          body:   body(opts)
         )
       end
 
@@ -24,7 +24,7 @@ module NotifyMe
           @twilio ||= Twilio::REST::Client.new(Config.app.twilio.sid, Config.app.twilio.auth_token)
         end
 
-        def body
+        def body opts
           "%s\n\n%s" % [ opts['title'], opts['message'] ]
         end
     end
