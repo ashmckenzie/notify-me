@@ -3,10 +3,9 @@ html lang="en"
   head
     meta charset="utf-8"
     meta content="IE=edge" http-equiv="X-UA-Compatible"
-    meta content="width=(device-width,)initial-scale=1" name="viewport"
+    meta content="width=(device-width), initial-scale=1.0" name="viewport"
     title Ding Dong!
     link href="/assets/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet"
-    link href="/assets/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet"
     style
       |  body { min-height: 2000px; padding-top: 70px; }
     /! HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries
@@ -18,6 +17,11 @@ html lang="en"
     .navbar.navbar-default.navbar-fixed-top[role="navigation"]
       .container
         .navbar-header
+          button[type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"]
+            span[class="sr-only"]Toggle navigation
+            span[class="icon-bar"]
+            span[class="icon-bar"]
+            span[class="icon-bar"]
           a.navbar-brand[href="/"] Ding Dong
         .navbar-collapse.collapse
           ul.nav.navbar-nav
