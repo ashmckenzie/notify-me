@@ -1,5 +1,3 @@
-require 'hashie'
-
 module NotifyMe
   module NotificationAdapters
     class Base

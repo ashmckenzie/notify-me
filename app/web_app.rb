@@ -2,8 +2,6 @@
 
 require 'sinatra/base'
 require 'sinatra/reloader'
-require 'stethoscope'
-require 'hashie'
 
 require 'better_errors' if ENV['RACK_ENV'] == 'development'
 

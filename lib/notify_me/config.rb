@@ -1,5 +1,4 @@
 require 'delegate'
-require 'hashie'
 require 'yaml'
 require 'singleton'
 
