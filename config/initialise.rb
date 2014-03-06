@@ -1,7 +1,7 @@
 require 'hashie'
 require 'stethoscope'
 
-Stethoscope.url = "/"
+Stethoscope.url = '/heartbeat'
 
 ROOT_PATH = File.expand_path(File.join('..', '..'), __FILE__)
 CONFIG_PATH = File.join(ROOT_PATH, 'config')

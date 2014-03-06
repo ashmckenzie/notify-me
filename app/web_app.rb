@@ -53,12 +53,13 @@ module NotifyMe
     #
     post '/' do
       content_type :json
-      params[:app_name] = 'default'
+      params[:app_name] ||= 'default'
       process(params, request)
     end
 
-    post '/:api_key/:app_name' do
+    post '/:api_key/?:app_name?' do
       content_type :json
+      params[:app_name] ||= 'default'
       process(params, request)
     end
 
@@ -94,10 +95,10 @@ module NotifyMe
 
             if (notification.valid?)
               if enqueue_jobs(notification, app)
-                messages << "Enqueued jobs for API key '#{params.api_key}' and app '#{params.app_name}'"
+                messages << "Enqueued jobs for API key #{params.api_key}/#{params.app_name}"
               else
                 code = 500
-                messages << "Unable to enqueue jobs for API key '#{params.api_key}' and app '#{params.app_name}'"
+                messages << "Unable to enqueue jobs for API key #{params.api_key}/#{params.app_name}"
               end
             else
               code = 466
@@ -106,7 +107,7 @@ module NotifyMe
 
           else
             code = 401
-            messages << "APP name '#{params.app_name}' is not valid for API key '#{params.api_key}'"
+            messages << "Application '#{params.app_name}' is not valid for API key '#{params.api_key}'"
           end
         end
 
@@ -127,7 +128,7 @@ module NotifyMe
       end
 
       def add_job jobs, job
-        debug("Adding " + job.class.to_s)
+        debug("Adding job: " + job.class.to_s)
         jobs << Thread.new { job.notify! } if !development?
       end
 
