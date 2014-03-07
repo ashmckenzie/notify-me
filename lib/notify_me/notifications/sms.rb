@@ -2,8 +2,9 @@ module NotifyMe
   module Notifications
     class Sms
 
-      def initialize notification
+      def initialize notification, recipient
         @notification = notification
+        @recipient = recipient
       end
 
       def notify!
@@ -12,10 +13,14 @@ module NotifyMe
 
       private
 
-        attr_reader :notification
+        attr_reader :notification, :recipient
 
         def options
-          { to: '+61417365255', title: notification.title, message: notification.message }
+          {
+            to: recipient.to,
+            title: notification.title,
+            message: notification.message
+          }
         end
     end
   end

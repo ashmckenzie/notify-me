@@ -4,6 +4,11 @@ require File.expand_path(File.join('..', 'config', 'initialise'), __FILE__)
 
 namespace 'notify-me' do
 
+  # desc 'Start cinch'
+  # task :start_cinch do
+  #   NotifyMe::Daemons::Irc.connect!
+  # end
+
   desc 'Generage nginx config'
   task :generate_nginx_config do
     require 'erb'

@@ -14,15 +14,20 @@ module NotifyMe
         mandrill.messages.send(
           to:           [ { 'email' => opts['to'] } ],
           subject:      opts['subject'],
-          from_email:   opts['from'],
+          from:         config.from,
+          from_email:   config.from_email,
           html:         opts['html']
         )
       end
 
       private
 
+        def config
+          Config.app.services.mandrill
+        end
+
         def mandrill
-          @mandrill ||= Mandrill::API.new(Config.app.mandrill.api_key, false)
+          @mandrill ||= Mandrill::API.new(config.api_key, false)
         end
     end
   end

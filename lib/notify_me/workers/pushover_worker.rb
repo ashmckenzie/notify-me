@@ -1,10 +1,9 @@
 require 'sidekiq'
-require 'mandrill'
 require 'pushover'
 
 module NotifyMe
   module Workers
-    class PushWorker
+    class PushoverWorker
 
       include Sidekiq::Worker
 
@@ -15,8 +14,8 @@ module NotifyMe
         Pushover.notification(
           message:  opts['message'],
           title:    opts['title'],
-          user:     Config.app.pushover.user_key,
-          token:    Config.app.pushover.api_token
+          user:     opts['user_key'],
+          token:    opts['api_token']
         )
       end
     end

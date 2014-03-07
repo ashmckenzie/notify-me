@@ -8,5 +8,6 @@ Sidekiq.configure_client do |config|
 end
 
 Sidekiq.configure_server do |config|
+  NotifyMe::Daemons::Irc.connect_async!    # FIXME: this is not cool :(
   config.redis = redis_options
 end

@@ -20,8 +20,12 @@ module NotifyMe
 
       private
 
+        def config
+          Config.app.services.twilio
+        end
+
         def twilio
-          @twilio ||= Twilio::REST::Client.new(Config.app.twilio.sid, Config.app.twilio.auth_token)
+          @twilio ||= Twilio::REST::Client.new(config.sid, config.auth_token)
         end
 
         def body opts

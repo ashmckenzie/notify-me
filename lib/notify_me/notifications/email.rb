@@ -4,8 +4,9 @@ module NotifyMe
   module Notifications
     class Email
 
-      def initialize notification
+      def initialize notification, recipient
         @notification = notification
+        @recipient = recipient
       end
 
       def notify!
@@ -14,15 +15,17 @@ module NotifyMe
 
       private
 
-        attr_reader :notification
+        attr_reader :notification, :recipient
+
+        def config
+          Config.app.services.mandrill
+        end
 
         def options
           {
-            to:         'ash@the-rebellion.net',
-            from:       'ash@the-rebellion.net',
-            from_email: 'Notify Me <ash@the-rebellion.net>',
-            subject:    "%s: %s" % [ 'Ding Dong', notification.subject ],
-            html:       html
+            to:       recipient.to,
+            subject:  "%s: %s" % [ 'Ding Dong', notification.subject ],
+            html:     html
           }
         end
 

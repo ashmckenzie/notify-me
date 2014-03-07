@@ -15,6 +15,8 @@ gem 'foreman'
 gem 'puma'
 gem 'redis'
 gem 'rake'
+gem 'blather'
+gem 'cinch'
 
 group :development do
   gem 'pry', require: false

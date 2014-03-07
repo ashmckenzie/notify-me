@@ -1,6 +1,6 @@
 module NotifyMe
   module Notifications
-    class Pushover
+    class Irc
 
       def initialize notification, recipient
         @notification = notification
@@ -8,17 +8,22 @@ module NotifyMe
       end
 
       def notify!
-        Workers::PushoverWorker.perform_async(options)
+        # FIXME
+
+        # if NotifyMe::Daemons::Irc.connected?
+          Workers::IrcWorker.perform_async(options)
+        # else
+          # Workers::IrcWorker.perform_in(60, options)
+        # end
       end
 
       private
 
-        attr_reader :notification
+        attr_reader :notification, :recipient
 
         def options
           {
-            user_key: recipient.user_key,
-            api_token: recipient.api_token,
+            nicknames: recipient.nicknames,
             message: notification.message,
             title: notification.title
           }
