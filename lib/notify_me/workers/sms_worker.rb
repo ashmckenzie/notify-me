@@ -12,7 +12,7 @@ module NotifyMe
 
       def perform opts
         twilio.account.messages.create(
-          from:   Config.app.twilio.caller_id,
+          from:   config.caller_id,
           to:     opts['to'],
           body:   body(opts)
         )
@@ -29,7 +29,7 @@ module NotifyMe
         end
 
         def body opts
-          "%s\n\n%s" % [ opts['title'], opts['message'] ]
+          "%s\n%s\n%s\n%s" % [ opts['host'], opts['time'], opts['title'], opts['message'] ]
         end
     end
   end

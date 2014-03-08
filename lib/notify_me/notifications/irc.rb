@@ -23,9 +23,11 @@ module NotifyMe
 
         def options
           {
-            nicknames: recipient.nicknames,
-            message: notification.message,
-            title: notification.title
+            nicknames:  recipient.nicknames,
+            title:      notification.title,
+            message:    notification.message,
+            host:       notification.host,
+            time:       notification.time
           }
         end
     end

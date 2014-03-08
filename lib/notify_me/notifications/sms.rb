@@ -17,9 +17,11 @@ module NotifyMe
 
         def options
           {
-            to: recipient.to,
-            title: notification.title,
-            message: notification.message
+            to:       recipient.to,
+            title:    notification.title,
+            message:  notification.message,
+            host:     notification.host,
+            time:     notification.time
           }
         end
     end

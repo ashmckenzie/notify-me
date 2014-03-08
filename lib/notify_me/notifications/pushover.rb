@@ -13,14 +13,16 @@ module NotifyMe
 
       private
 
-        attr_reader :notification
+        attr_reader :notification, :recipient
 
         def options
           {
-            user_key: recipient.user_key,
-            api_token: recipient.api_token,
-            message: notification.message,
-            title: notification.title
+            user_key:   recipient.user_key,
+            api_token:  recipient.api_token,
+            title:      notification.title,
+            message:    notification.message,
+            host:       notification.host,
+            time:       notification.time
           }
         end
     end

@@ -125,14 +125,14 @@ module NotifyMe
 
         add_job(jobs, Notifications::Irc.new(notification, services.irc))             if available_services.include?('irc')
         add_job(jobs, Notifications::Sms.new(notification, services.twilio))          if available_services.include?('twilio')
-        add_job(jobs, Notifications::Pushover.new(notification, services.pushpver))   if available_services.include?('pushover')
+        add_job(jobs, Notifications::Pushover.new(notification, services.pushover))   if available_services.include?('pushover')
         add_job(jobs, Notifications::Email.new(notification, services.mandrill))      if available_services.include?('mandrill')
         jobs.join
       end
 
       def add_job jobs, job
         debug("Adding job: " + job.class.to_s)
-        jobs << Thread.new { job.notify! }# =>  if !development?
+        jobs << Thread.new { job.notify! }# if !development?
       end
 
       def debug obj

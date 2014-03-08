@@ -12,13 +12,17 @@ module NotifyMe
 
       def perform opts
         if NotifyMe::Daemons::Irc.connected?
-          message = "Title: %s, Message: %s" % [ opts['title'], opts['message'] ]
-
           opts['nicknames'].each do |nickname|
-            NotifyMe::Daemons::Irc.bot.Target(nickname).msg(message)
+            NotifyMe::Daemons::Irc.bot.Target(nickname).msg(message(opts))
           end
         end
       end
+
+      private
+
+        def message opts
+          "Host: %s, Time: %s, Title: %s, Message: %s" % [ opts['host'], opts['time'], opts['title'], opts['message'] ]
+        end
     end
   end
 end
