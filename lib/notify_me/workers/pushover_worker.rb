@@ -3,7 +3,7 @@ require 'pushover'
 
 module NotifyMe
   module Workers
-    class PushoverWorker
+    class PushWorker
 
       include Sidekiq::Worker
 

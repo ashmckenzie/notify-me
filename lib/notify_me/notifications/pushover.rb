@@ -1,6 +1,6 @@
 module NotifyMe
   module Notifications
-    class Pushover
+    class Push
 
       def initialize notification, recipient
         @notification = notification
@@ -8,7 +8,7 @@ module NotifyMe
       end
 
       def notify!
-        Workers::PushoverWorker.perform_async(options)
+        Workers::PushWorker.perform_async(options)
       end
 
       private
