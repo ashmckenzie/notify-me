@@ -7,4 +7,7 @@ echo "Restarting app.."
 touch tmp/restart.txt
 
 echo "Restarting sidekiq"
-sudo god restart notify-me
+sudo god restart notify-me-sidekiq
+
+echo "Restarting daemons (IRC)"
+sudo god restart notify-me-irc

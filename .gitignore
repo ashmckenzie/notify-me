@@ -1,3 +1,4 @@
+.ruby-version
 config/config.yml
 config/dingdong.io.*
 cache

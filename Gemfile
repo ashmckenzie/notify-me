@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'sinatra', require: false
+gem 'sinatra', :require => false
 gem 'sinatra-contrib'
 gem 'hashie'
 gem 'stethoscope'
@@ -14,15 +14,17 @@ gem 'sidekiq-failures'
 gem 'foreman'
 gem 'puma'
 gem 'redis'
-gem 'rake'
+gem 'rake', '~> 10.0'
 gem 'blather'
 gem 'cinch'
+gem 'dcell'
+gem 'ffi-rzmq', '~> 2.0'
 
 group :development do
-  gem 'pry', require: false
-  gem 'pry-debugger', require: false
-  gem 'better_errors', require: false
-  gem 'binding_of_caller', require: false
+  gem 'pry', :require => false
+  gem 'pry-debugger', :require => false
+  gem 'better_errors', :require => false
+  gem 'binding_of_caller', :require => false
   gem 'awesome_print'
   gem 'git-deploy'
   gem 'debugger-ruby_core_source', '1.3.2'
