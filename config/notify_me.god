@@ -20,7 +20,7 @@ God.watch do |w|
 
   w.transition(:up, :start) do |on|
     on.condition(:process_exits) do |c|
-      c.notify = 'admin'
+      c.notify = 'notify-me'
     end
   end
 end
@@ -39,7 +39,7 @@ God.watch do |w|
 
   w.transition(:up, :start) do |on|
     on.condition(:process_exits) do |c|
-      c.notify = 'admin'
+      c.notify = 'notify-me'
     end
   end
 end
