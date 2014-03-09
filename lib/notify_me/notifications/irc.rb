@@ -5,6 +5,8 @@ module NotifyMe
       def initialize notification, recipient
         @notification = notification
         @recipient = recipient
+
+        DCell.start id: 'irc_notification', addr: "tcp://127.0.0.1:#{NotifyMe::RandomPort.new.next_available}"
       end
 
       def notify!
