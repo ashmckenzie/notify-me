@@ -28,7 +28,7 @@ module NotifyMe
             nicknames:  recipient.nicknames,
             title:      notification.title,
             message:    notification.message,
-            host:       notification.host,
+            host:       notification.host_and_reverse,
             time:       notification.time
           }
         end

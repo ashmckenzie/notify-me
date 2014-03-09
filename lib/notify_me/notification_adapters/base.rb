@@ -34,12 +34,18 @@ module NotifyMe
         payload.message
       end
 
-      def host
-        payload.host || request.ip
+      def host_and_reverse
+        "%s (%s)" % [ reverse_host, host ]
       end
 
+      # FIXME: this should be IP
+      def host
+        @host ||= payload.host || request.ip
+      end
+
+      # FIXME: this should be host
       def reverse_host
-        Resolv.getname(host)
+        @reverse_host ||= Resolv.getname(host)
       end
 
       def category

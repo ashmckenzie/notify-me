@@ -21,7 +21,7 @@ module NotifyMe
             api_token:  recipient.api_token,
             title:      notification.title,
             message:    notification.message,
-            host:       notification.host,
+            host:       notification.host_and_reverse,
             time:       notification.time
           }
         end
