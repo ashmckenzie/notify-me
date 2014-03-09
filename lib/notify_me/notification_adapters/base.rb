@@ -1,3 +1,5 @@
+require 'resolv'
+
 module NotifyMe
   module NotificationAdapters
     class Base
@@ -34,6 +36,10 @@ module NotifyMe
 
       def host
         payload.host || request.ip
+      end
+
+      def reverse_host
+        Resolv.getname(host)
       end
 
       def category

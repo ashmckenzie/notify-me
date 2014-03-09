@@ -21,7 +21,9 @@ table.row[border="0" cellspacing="0" cellpadding="8"]
           td
             p[style="font-weight: bold"] Host
           td
-            p= notification.host
+            p
+              = notification.host
+              = notification.reverse_host
         tr
           td
             p[style="font-weight: bold"] Time

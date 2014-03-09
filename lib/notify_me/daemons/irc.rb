@@ -56,11 +56,12 @@ module NotifyMe
       end
 
       def nickname_online? nickname
-        if connected?
-          bot.User(nickname).online
-        else
-          false
-        end
+        true  # FIXME
+        # if connected?
+        #   bot.User(nickname).online
+        # else
+        #   false
+        # end
       end
 
       private
