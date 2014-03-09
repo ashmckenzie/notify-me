@@ -1,13 +1,17 @@
 #!/bin/sh
 
+echo "Restarting daemons (IRC)"
+sudo god restart notify-me-irc
+
+sleep 5
+
+echo "Restarting sidekiq"
+sudo god restart notify-me-sidekiq
+
+sleep 5
+
 echo "Reload nginx.."
 sudo service nginx reload
 
 echo "Restarting app.."
 touch tmp/restart.txt
-
-echo "Restarting sidekiq"
-sudo god restart notify-me-sidekiq
-
-echo "Restarting daemons (IRC)"
-sudo god restart notify-me-irc

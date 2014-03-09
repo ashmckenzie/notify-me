@@ -33,7 +33,7 @@ God.watch do |w|
   w.log       = c['log_file']
 
   w.start     = %Q{HOME="/home/deploy" bundle exec rake notify-me:start_irc_daemon}
-  w.stop      = %Q{for i in `ps -ef | grep notify-me:start_irc_daemon | egrep -v ruby | awk '{ print $2 }'`; do kill ${i}; done}
+  w.stop      = %Q{for i in `ps -ef | grep "notify-me:start_irc_daemon" | egrep -v grep | awk '{ print $2 }'`; do kill ${i}; done}
 
   # Important that this appears here
   w.keepalive
