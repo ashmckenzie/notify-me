@@ -8,18 +8,20 @@ module NotifyMe
       end
 
       def notify!
-        # FIXME
-
-        # if NotifyMe::Daemons::Irc.connected?
+        if irc_daemon.connected?
           Workers::IrcWorker.perform_async(options)
-        # else
-          # Workers::IrcWorker.perform_in(60, options)
-        # end
+        else
+          Workers::IrcWorker.perform_in(60, options)
+        end
       end
 
       private
 
         attr_reader :notification, :recipient
+
+        def irc_daemon
+          NotifyMe::Clients::Irc.irc_daemon
+        end
 
         def options
           {

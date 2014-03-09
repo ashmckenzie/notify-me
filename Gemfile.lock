@@ -202,7 +202,7 @@ DEPENDENCIES
   pry-debugger
   puma
   pushover
-  rake (~> 10.0)
+  rake (= 10.1.1)
   redis
   sidekiq
   sidekiq-failures

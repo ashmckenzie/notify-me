@@ -132,7 +132,7 @@ module NotifyMe
 
       def add_job jobs, job
         debug("Adding job: " + job.class.to_s)
-        jobs << Thread.new { job.notify! }# if !development?
+        jobs << Thread.new { job.notify! }# unless development?
       end
 
       def debug obj

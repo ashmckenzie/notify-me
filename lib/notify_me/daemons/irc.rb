@@ -34,14 +34,13 @@ module NotifyMe
           configure do |c|
             c.server    = Config.app.services.irc.server
             c.nick      = Config.app.services.irc.nickname
-            # c.password  = Config.app.services.irc.password
+            c.password  = Config.app.services.irc.password
           end
 
           on :connect do |m|
             previous_self.state = 'connected'
 
             Config.app.services.irc.owners.each do |nickname|
-              # m.bot.Target(nickname).msg('I am alive!')
               previous_self.private_message(nickname, 'I am alive!!!')
             end
           end
@@ -51,7 +50,17 @@ module NotifyMe
       end
 
       def private_message nickname, message
-        bot.Target(nickname).msg(message) if connected?
+        if nickname_online?(nickname)
+          bot.Target(nickname).msg(message)
+        end
+      end
+
+      def nickname_online? nickname
+        if connected?
+          bot.User(nickname).online
+        else
+          false
+        end
       end
 
       private

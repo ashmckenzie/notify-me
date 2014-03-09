@@ -7,7 +7,7 @@ namespace 'notify-me' do
 
   desc 'Start IRC daemon'
   task :start_irc_daemon do
-    DCell.start id: 'irc_daemon', addr: 'tcp://127.0.0.1:9001'
+    DCell.start id: 'irc_daemon', addr: "tcp://127.0.0.1:#{NotifyMe::RandomPort.new.next_available}"
     NotifyMe::Daemons::Irc.supervise_as :irc_daemon
     DCell::Node['irc_daemon'][:irc_daemon].connect_async!
     sleep
@@ -29,6 +29,8 @@ namespace 'notify-me' do
     require 'awesome_print'
 
     include NotifyMe
+
+    DCell.start id: 'console', addr: "tcp://127.0.0.1:#{NotifyMe::RandomPort.new.next_available}"
 
     pry
   end
