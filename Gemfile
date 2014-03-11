@@ -17,7 +17,7 @@ gem 'redis'
 gem 'rake', '10.1.1'
 gem 'blather'
 gem 'cinch'
-gem 'dcell'
+# gem 'dcell'
 gem 'ffi-rzmq', '~> 2.0'
 
 group :development do

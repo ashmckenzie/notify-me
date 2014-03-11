@@ -1,4 +1,4 @@
-require 'dcell'
+# require 'dcell'
 require 'cinch'
 
 module NotifyMe

@@ -11,7 +11,7 @@ module NotifyMe
       sidekiq_options :queue => QUEUE_NAME
 
       def perform opts
-        DCell.start id: 'sidekiq_irc_worker', addr: "tcp://127.0.0.1:#{NotifyMe::RandomPort.new.next_available}"
+        # DCell.start id: 'sidekiq_irc_worker', addr: "tcp://127.0.0.1:#{NotifyMe::RandomPort.new.next_available}"
 
         if irc_daemon.connected?
           opts['nicknames'].each do |nickname|
