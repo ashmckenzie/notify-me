@@ -1,13 +1,12 @@
 #!/bin/sh
 
 echo "Restarting daemons (IRC)"
-sudo god restart notify-me-irc
-
-sleep 60
+sudo god stop notify-me-irc
+# sudo god restart notify-me-irc
+# sleep 60
 
 echo "Restarting sidekiq"
 sudo god restart notify-me-sidekiq
-
 sleep 30
 
 echo "Reload nginx.."

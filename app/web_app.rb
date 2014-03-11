@@ -123,7 +123,7 @@ module NotifyMe
         debug(app)
         debug(available_services)
 
-        add_job(jobs, Notifications::Irc.new(notification, services.irc))             if available_services.include?('irc')
+        # add_job(jobs, Notifications::Irc.new(notification, services.irc))             if available_services.include?('irc')
         add_job(jobs, Notifications::Sms.new(notification, services.twilio))          if available_services.include?('twilio')
         add_job(jobs, Notifications::Push.new(notification, services.pushover))   if available_services.include?('pushover')
         add_job(jobs, Notifications::Email.new(notification, services.mandrill))      if available_services.include?('mandrill')

@@ -1,16 +1,16 @@
 # encoding: UTF-8
 
-require 'dcell'
+# require 'dcell'
 require File.expand_path(File.join('..', 'config', 'initialise'), __FILE__)
 
 namespace 'notify-me' do
 
   desc 'Start IRC daemon'
   task :start_irc_daemon do
-    DCell.start id: 'irc_daemon', addr: "tcp://127.0.0.1:#{NotifyMe::RandomPort.new.next_available}"
-    NotifyMe::Daemons::Irc.supervise_as :irc_daemon
-    DCell::Node['irc_daemon'][:irc_daemon].connect_async!
-    sleep
+    # DCell.start id: 'irc_daemon', addr: "tcp://127.0.0.1:#{NotifyMe::RandomPort.new.next_available}"
+    # NotifyMe::Daemons::Irc.supervise_as :irc_daemon
+    # DCell::Node['irc_daemon'][:irc_daemon].connect_async!
+    # sleep
   end
 
   desc 'Generage nginx config'
@@ -30,7 +30,7 @@ namespace 'notify-me' do
 
     include NotifyMe
 
-    DCell.start id: 'console', addr: "tcp://127.0.0.1:#{NotifyMe::RandomPort.new.next_available}"
+    # DCell.start id: 'console', addr: "tcp://127.0.0.1:#{NotifyMe::RandomPort.new.next_available}"
 
     pry
   end
