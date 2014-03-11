@@ -5,7 +5,7 @@ module NotifyMe
   module Daemons
     class Irc
 
-      include Celluloid
+      # include Celluloid
 
       attr_reader   :bot
       attr_accessor :state
