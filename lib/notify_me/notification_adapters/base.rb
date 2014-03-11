@@ -46,6 +46,8 @@ module NotifyMe
       # FIXME: this should be host
       def reverse_host
         @reverse_host ||= Resolv.getname(host)
+      rescue Resolv::ResolvError => e
+        'unknown'
       end
 
       def category
